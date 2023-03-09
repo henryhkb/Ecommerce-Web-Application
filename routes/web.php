@@ -14,9 +14,12 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+//redirecting the user based on the usertype
+Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware([
     'auth:sanctum',
@@ -28,5 +31,3 @@ Route::middleware([
     })->name('dashboard');
 });
 
-//redirecting the user based on the usertype
-Route::get('/redirect', [HomeController::class, 'redirect']);
