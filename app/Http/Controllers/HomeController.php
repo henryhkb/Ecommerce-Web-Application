@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 //Import the auth Facade
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\Product;
+
 class HomeController extends Controller
 {
     
     public function index()
     {
-        return view('home.userpage');
+        $product = Product::paginate(5);
+        return view('home.userpage', compact('product'));
     }
     
     
@@ -32,8 +35,20 @@ class HomeController extends Controller
 
         else{
         
-            return view('dashboard');
+          $product = Product::paginate(5);
+        return view('home.userpage', compact('product'));
         
         }
     }
+
+
+    //getting the id of the products
+    public function product_details($id)
+    {
+
+        $product = product::find($id);
+
+        return view('home.product_details', compact('product'));
+    }
+    
 }

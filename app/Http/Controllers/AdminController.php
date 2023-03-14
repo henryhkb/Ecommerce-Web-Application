@@ -29,7 +29,6 @@ class AdminController extends Controller
         $data->save();
 
         return redirect()->back()->with('message', 'Category Added Successfully');
-
     }
 
     public function delete_category($id)

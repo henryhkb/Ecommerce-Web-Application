@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  
   <head>
     @include('admin.css')
   </head>
@@ -11,7 +12,7 @@
 
     @include('admin.header')
 
-    @include('admin.body')
+    {{-- @include('admin.body') --}}
         <!-- partial -->
       
     @include('admin.script')

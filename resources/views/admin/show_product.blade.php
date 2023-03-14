@@ -18,10 +18,10 @@
             padding-top: 20px;
         }
 
-        /* .img_size{
+        .img_size{
             width: 1500px;
             height: 150px;
-        } */
+        }
 
         .th_color{
             background: skyblue;

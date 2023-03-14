@@ -42,6 +42,7 @@
                          <li class="nav-item">
                             <a class="btn btn-success" href="{{ route('register') }}">Register</a>
                          </li>
+                         
         
                      </ul>
                   </div>
