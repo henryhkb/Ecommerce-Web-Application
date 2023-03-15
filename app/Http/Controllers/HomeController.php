@@ -90,7 +90,7 @@ class HomeController extends Controller
                 $cart->price = $product->price * $request->quantity;
             }
 
-            $cart->price = $product->price;
+            //$cart->price = $product->price;
             $cart->image = $product->image;
             $cart->Product_id = $product->id;
 
@@ -111,6 +111,39 @@ class HomeController extends Controller
         else{
             return redirect('login');
         }
+    }
+
+    public function showcart()
+    {
+        //checking to see if a user is logged in
+        
+        if(Auth::id()){
+        
+        //getting the user id to display the products in the cart
+        $id = Auth::user()->id;
+        
+        $cart = cart::where('user_id', '=',  $id)->get();
+        
+        return view('home.showcart', compact('cart'));
+        
+        }
+        
+        else
+    
+        {
+            return redirect('login');
+        }
+
+        
+    }
+
+    public function remove_cart($id)
+    {
+        $cart = cart::find($id);
+        
+        $cart->delete();
+
+        return redirect()->back();
     }
     
 }
