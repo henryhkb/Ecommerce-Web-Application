@@ -14,9 +14,20 @@
                            <a href="{{url('/product_details',$products->id)}}" class="option1">
                            Product Details
                            </a>
-                           <a href="" class="option2">
-                           Buy Now
-                           </a>
+
+                           <form action="{{ url('add_cart', $products->id) }}" method="post">
+                              @csrf
+                              <div class="row">
+
+                              <div class="col-md-4">
+                                 <input type="number" name="quantity" value="1" min="1" style="width:100px">
+                              </div>
+
+                              <div class="col-md-4">
+                                 <input type="submit" value="Add to Cart">
+                              </div>
+                              </div>
+                           </form>
                         </div>
                      </div>
                      <div class="img-box">
@@ -51,11 +62,10 @@
                      </div>
                   </div>
                </div>
-              
-            @endforeach
-            <span style="padding-top:20px">
-               {{ $product->withQueryString()->links('pagination::bootstrap-5') }}
-            </span>
-         </div> 
+            @endforeach  
          </div>
+         <span style="padding-top:20px">
+            {{ $product->withQueryString()->links('pagination::bootstrap-5') }}
+         </span>
+    
       </section>
