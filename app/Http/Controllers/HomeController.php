@@ -12,6 +12,11 @@ use App\Models\Product;
 
 use App\Models\Cart;
 
+use App\Models\Order;
+
+use Session;
+use Stripe;
+
 class HomeController extends Controller
 {
     
@@ -145,5 +150,138 @@ class HomeController extends Controller
 
         return redirect()->back();
     }
+
+    public function cash_order()
+    {
+        //find out which user is currrently logged in
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $data = cart::where('user_id', '=', $userid)->get();
+
+        foreach($data as $data)
+        {
+
+            $order = new order;
+
+            $order->name = $data->name;
+
+            $order->email = $data->email;
+
+            $order->phone = $data->phone;
+
+            $order->address = $data->address;
+
+            $order->user_id = $data->user_id;
+
+
+            $order->product_title = $data->product_title;
+            
+            $order->price = $data->price;
+
+            $order->quantity = $data->quantity;
+
+            $order->image = $data->image;
+
+            $order->Product_id = $data->Product_id;
+
+
+            $order->payment_status = 'cash on delivery';
+
+            $order->delivery_status = 'processing';
+
+            $order->save();
+
+            //getting the id from the cart table and storing it in a variable
+            $cart_id = $data->id;
+
+            $cart = cart::find($cart_id);
+
+            $cart->delete();
+
+
+        }
+
+        return redirect()->back()->with('message', 'We Received Your Oder, We will connect with you soon...');
+        
+    }
+
+    public function stripe($totalPrice)
+    {
+        return view('home.stripe', compact('totalPrice'));
+    }
+
+
+    public function stripePost(Request $request, $totalPrice)
+    {
+        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+    
+        Stripe\Charge::create ([
+                "amount" => $totalPrice * 100,
+                "currency" => "usd",
+                "source" => $request->stripeToken,
+                "description" => "Thanks for payment" 
+        ]);
+
+        //moving the products to the order table after payment has been made.
+        $user = Auth::user();
+
+        $userid = $user->id;
+
+        $data = cart::where('user_id', '=', $userid)->get();
+
+        foreach($data as $data)
+        {
+
+            $order = new order;
+
+            $order->name = $data->name;
+
+            $order->email = $data->email;
+
+            $order->phone = $data->phone;
+
+            $order->address = $data->address;
+
+            $order->user_id = $data->user_id;
+
+
+            $order->product_title = $data->product_title;
+            
+            $order->price = $data->price;
+
+            $order->quantity = $data->quantity;
+
+            $order->image = $data->image;
+
+            $order->Product_id = $data->Product_id;
+
+
+            $order->payment_status = 'Paid';
+
+            $order->delivery_status = 'processing';
+
+            $order->save();
+
+            //getting the id from the cart table and storing it in a variable
+            $cart_id = $data->id;
+
+            $cart = cart::find($cart_id);
+
+            $cart->delete();
+
+
+        }
+
+        
+      
+        Session::flash('success', 'Payment successful!');
+              
+        return back();
+    }
+
+
+    
     
 }

@@ -57,6 +57,13 @@ Route::get('/update_product/{id}',[AdminController::class, 'update_product']);
 
 Route::post('/update_product_confirm/{id}', [AdminController::class, 'update_product_confirm']);
 
+Route::get('/order', [AdminController::class, 'order']);
+
+
+
+
+
+
 Route::get('/product_details/{id}', [HomeController::class, 'product_details']);
 
 Route::post('/add_cart/{id}', [HomeController::class, 'add_cart']);
@@ -65,4 +72,18 @@ Route::get('/showcart', [HomeController::class, 'showcart']);
 
  
 Route::get('/remove_cart/{id}', [HomeController::class, 'remove_cart']);
+
+Route::get('/cash_order', [HomeController::class, 'cash_order']);
+
+Route::get('/stripe/{totalPrice}', [HomeController::class, 'stripe']);
+
+// Route::controller(HomeController::class)->group(function(){
+//     Route::get('stripe', 'stripe');
+//     Route::post('stripe', 'stripePost')->name('stripe.post');
+// });
+
+
+//name function is there because in the action form tag route is used instead of url.
+Route::post('stripe/{totalPrice}', [HomeController::class, 'stripePost'])->name('stripe.post');
+
 

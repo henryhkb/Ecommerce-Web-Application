@@ -53,6 +53,12 @@
         @include('home.header')
         {{-- end of the include header section --}}
  
+    @if(session()->has('message'))
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            {{ session()->get('message') }}
+        </div>
+    @endif
 
 
       <div class="center">
@@ -74,7 +80,7 @@
             <tr>
                 <td>{{ $cart->product_title }}</td>
                 <td>{{ $cart->quantity}}</td>
-                <td>{{ $cart->price }}</td>
+                <td>GH₵ {{$cart->price }}</td>
                 <td><img style="height:100px;" src="/product/{{ $cart->image }}"></td>
                 <td><a onclick="return confirm('Are you sure you want to remove the product')" class="btn btn-danger" href="{{ url('/remove_cart', $cart->id) }}">Remove Product</a></td>
             </tr>
@@ -86,8 +92,17 @@
         
         </table>
         <div>
-            <h1 class="total_deg">TotalPrice: {{ $totalPrice }}</h1>
+            <h1 class="total_deg">TotalPrice: GH₵ {{ $totalPrice }}</h1>
         </div>
+
+        <div>
+            <h1 style="font-size:25px; padding-bottom:15px;">Proceed to Order</h1>
+
+            <a href="{{ url('cash_order') }}" class="btn btn-danger">Cash On Delivery</a>
+
+            <a href="{{ url('stripe', $totalPrice) }}" class="btn btn-danger">Pay Using Card</a>
+        </div>
+
       </div>
 
 

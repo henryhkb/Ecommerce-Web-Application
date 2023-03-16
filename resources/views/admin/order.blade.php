@@ -13,8 +13,7 @@
 
     @include('admin.header')
 
-    @include('admin.body')
-        <!-- partial -->
+    
       
     @include('admin.script')
   </body>

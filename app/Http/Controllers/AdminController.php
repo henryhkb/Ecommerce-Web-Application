@@ -132,4 +132,10 @@ class AdminController extends Controller
 
         return redirect()->back()->with('message', 'Product updated successfully');
     }
+
+
+    public function order()
+    {
+        return view('admin.order');
+    }
 }
