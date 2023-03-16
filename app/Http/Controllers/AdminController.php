@@ -9,6 +9,8 @@ use App\Models\Category;
 
 use App\Models\Product;
 
+use App\Models\Order;
+
 class AdminController extends Controller
 {
     //
@@ -134,8 +136,30 @@ class AdminController extends Controller
     }
 
 
+    // Displaying all records in the order table
     public function order()
     {
-        return view('admin.order');
+        $order = order::all();
+
+        return view('admin.order', compact('order'));
     }
+
+    //adding the delivered function
+    public function delivered($id)
+    {
+
+        //finding the id of the particular record to be delivered
+        $order = order::find($id);
+
+        //change the delivery status when the delivered button is clicked
+        $order->delivery_status = "delivered";
+
+        //change the payment status when the delivered button is clicked
+        $order->payment_status = "Paid";
+
+        $order->save();
+
+        return redirect()->back();
+    }
+
 }
