@@ -37,6 +37,17 @@
       <div class="content-wrapper">
         <h1 class="title_deg">All Orders</h1>
 
+        <div style="padding-left:400px; padding-bottom:30px">
+
+          <form action="{{ url('search') }}" method="get">
+            @csrf
+            <input style="color:black;" type="text" name="search" placeholder="Search for Something">
+
+            <input type="submit" value="Search" class="btn btn-outline-primary">
+          </form>
+        
+        </div>
+
         <table class="table table_deg">
           <thead>
           <tr class="th_deg">
@@ -51,11 +62,13 @@
             <th>Delivery Status</th>
             <th>Image</th>
             <th>Delivered</th>
+            <th>Print PDF</th>
+            <th>Send Email</th>
           </tr>
         </thead>
 
 
-        @foreach ($order as $order)
+        @forelse ($order as $order)
           <tr>
             <td>{{ $order->name }}</td>
             <td>{{ $order->email }}</td>
@@ -77,8 +90,23 @@
               @endif
             </td>
 
+            <td><a href="{{ url('print_PDF',$order->id) }}" class="btn btn-secondary">Print PDF</a></td>
+
+            {{-- adding the id allows you to get the particular id of the record. --}}
+            <td><a href="{{ url('send_email', $order->id) }}" class="btn btn-info">Send Email</a></td>
+
           </tr>
-        @endforeach
+
+        @empty
+        <tr>
+          <td style="text-align:center" cols="1">
+            <p>No Data Found</p>
+          </td>
+        </tr>
+        
+        
+
+        @endforelse
 
         </table>
 

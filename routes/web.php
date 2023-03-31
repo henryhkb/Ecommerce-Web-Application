@@ -37,7 +37,7 @@ Route::middleware([
 
 
 //redirecting the user based on the usertype
-Route::get('/redirect', [HomeController::class, 'redirect']);
+Route::get('/redirect', [HomeController::class, 'redirect'])->middleware('auth','verified');
 
 Route::get('/view_category',[AdminController::class, 'view_category']);
 
@@ -87,5 +87,13 @@ Route::get('/stripe/{totalPrice}', [HomeController::class, 'stripe']);
 
 //name function is there because in the action form tag route is used instead of url.
 Route::post('stripe/{totalPrice}', [HomeController::class, 'stripePost'])->name('stripe.post');
+
+Route::get('print_PDF/{id}', [AdminController::class, 'print_PDF']);
+
+Route::get('send_email/{id}', [AdminController::class, 'send_email']);
+
+Route::post('send_user_email/{id}', [AdminController::class, 'send_user_email']);
+
+Route::get('search', [AdminController::class, 'search']);
 
 

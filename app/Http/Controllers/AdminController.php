@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use PDF;
+use App\Models\Order;
 
 //importing the model
-use App\Models\Category;
-
 use App\Models\Product;
 
-use App\Models\Order;
+use App\Models\Category;
+
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+use Notification;
+use App\Notifications\SendEmailNotification;
+
 
 class AdminController extends Controller
 {
@@ -160,6 +166,70 @@ class AdminController extends Controller
         $order->save();
 
         return redirect()->back();
+    }
+
+    public function print_PDF($id)
+    {
+
+        $order = order::find($id);
+
+        $pdf = PDF::loadView('admin.print_PDF', compact('order'));
+
+        return $pdf->download('order_details.pdf');
+    }
+
+    public function send_email($id)
+    {
+
+        $order = order::find($id);
+
+        return view('admin.email_info', compact('order'));
+    }
+
+    // function to send email to user. 
+    public function send_user_email(Request $request, $id)
+    {
+        $order = order::find($id);
+
+        $details = [
+            'greeting' => $request->greeting,
+
+            'firstline' => $request->firstline,
+
+            'body' => $request->body,
+            
+
+            //if you want to add a default body message
+            // 'body' => 'hello world',
+
+            'button' => $request->button,
+
+            'url' => $request->url,
+
+            'lastline' => $request->lastline,
+        ];
+
+        Notification::send($order, new SendEmailNotification($details));
+
+        return redirect()->back();
+    }
+
+    public function search(Request $request)
+    {
+
+        $searchText = $request->search;
+
+        // declaring what is in the foreach loop together with the table name
+
+        //searching by a single field in the table
+        //$order = order::where('name', 'LIKE', "%$searchText%")->get();
+
+
+        //Searching by multiple records in the table.
+        $order = order::where('name', 'LIKE', "%$searchText%")->orWhere('price', 'LIKE', "%$searchText%")->get();
+
+        return view('admin.order', compact('order'));
+
     }
 
 }
