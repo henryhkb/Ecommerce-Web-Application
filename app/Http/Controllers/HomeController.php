@@ -36,7 +36,32 @@ class HomeController extends Controller
 
         if($usertype == '1'){
 
-            return view('admin.home');
+            // always the singular of the table (Getting the total products in a table)
+            $total_product = product::all()->count();
+
+            //getting the total orders made
+            $total_orders = order::all()->count();
+
+            //getting the total number of users
+            $total_users = order::all()->count();
+
+            //getting the total revenue by suming up all the records in the price field
+            $orders = order::all();
+
+            $total_revenue = 0;
+
+            foreach($orders as $orders){
+                $total_revenue = $total_revenue + $orders->price;
+            }
+            //end of getting the sum of total revenue from the orders table. 
+
+            //getting the total number of delivery_status that says delivered
+            $total_delivered = order::where('delivery_status', '=', 'delivered')->get()->count();
+
+            //getting the total number of delivery_status that says processing
+            $order_processing = order::where('delivery_status', '=', 'processing')->get()->count();
+
+            return view('admin.home', compact('total_product', 'total_orders', 'total_users', 'total_revenue','total_delivered','order_processing'));
         
         }
 
@@ -276,7 +301,7 @@ class HomeController extends Controller
 
         
       
-        Session::flash('success', 'Payment successful!');
+        //Session::flash('success', 'Payment successful!');
               
         return back();
     }
