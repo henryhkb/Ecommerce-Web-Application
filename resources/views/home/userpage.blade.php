@@ -44,6 +44,39 @@
         @include('home.product')
       <!-- end product section -->
 
+      {{-- Comment and reply system starts here--}}
+          <div style="text-align: center; padding-bottom: 30px;">
+            <h1 style="font-size:30px; text-align:center; padding-top:20px; padding-bottom:20px;">Comments</h1>
+
+            <form action="">
+              <textarea style="height:150px; width:600px;" placeholder="Comment Something here" name="" id="" cols="30" rows="10"></textarea>
+              <br>
+              <a href="" class="btn btn-primary">Comment</a>
+            </form>
+          </div>
+
+          <div style="padding-left:20%">
+            <h1 style="font-size: 30px; padding-bottom: 20px;">All Comments</h1>
+            <div>
+              <b>Henry</b>
+              <p>This is my first comment</p>
+              <a href="javascript::void(0)">Reply</a>
+            </div>
+
+            <div>
+              <b>Tony</b>
+              <p>This is my second comment</p>
+              <a href="javascript::void(0)">Reply</a>
+            </div>
+
+            <div>
+              <b>Gewn</b>
+              <p>This is my third comment</p>
+              <a href="javascript::void(0)">Reply</a>
+            </div>
+          </div>
+      {{-- Comment and reply system ends here --}}
+
       <!-- subscribe section -->
         @include('home.subscribe')
       <!-- end subscribe section -->
