@@ -90,8 +90,6 @@
         </div>
   
       </div>
-
- 
       
       <!-- jQery -->
       <script src="home/js/jquery-3.4.1.min.js"></script>

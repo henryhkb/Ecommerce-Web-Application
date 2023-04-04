@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User; 
+use Stripe;
 //Import the user model class
-use Illuminate\Http\Request;
+use Session;
 //Import the auth Facade
-use Illuminate\Support\Facades\Auth;
-
-use App\Models\Product;
-
 use App\Models\Cart;
 
 use App\Models\Order;
 
-use Session;
-use Stripe;
+use App\Models\Reply;
+
+use App\Models\User; 
+
+use App\Models\Comment;
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,7 +25,12 @@ class HomeController extends Controller
     public function index()
     {
         $product = Product::paginate(6);
-        return view('home.userpage', compact('product'));
+        //returning all the comments from the comment table
+        $comment = comment::all();
+
+        $reply = reply::all();
+
+        return view('home.userpage', compact('product', 'comment', 'reply'));
     }
     
     
@@ -66,9 +73,14 @@ class HomeController extends Controller
         }
 
         else{
-        
             $product = Product::paginate(6);
-            return view('home.userpage', compact('product'));
+
+            //returning all the comments from the comment table
+            $comment = comment::orderby('id', 'desc')->get();
+
+            $reply = reply::orderby('id', 'desc')->get();
+
+            return view('home.userpage', compact('product', 'comment', 'reply'));
         
         }
 
@@ -84,6 +96,8 @@ class HomeController extends Controller
 
         return view('home.product_details', compact('product'));
     }
+
+
 
     public function add_cart(Request $request, $id)
     {
@@ -232,6 +246,8 @@ class HomeController extends Controller
         
     }
 
+
+
     public function stripe($totalPrice)
     {
         return view('home.stripe', compact('totalPrice'));
@@ -306,7 +322,61 @@ class HomeController extends Controller
         return back();
     }
 
+    public function add_comment(Request $request)
+    {
+        //upload data to the comment table
+        if(Auth::id())
+        {
+            //variable and the table name
+            $comment = new Comment;
 
+            //variable and the field of the table heading
+            $comment->name = Auth::user()->name;
+            
+            $comment->user_id = Auth::user()->id;
+
+            $comment->comment = $request->comment;
+
+            $comment->save();
+
+            //redirecting the use back after the comment has been added.
+            return redirect()->back();
+        }
+
+        else{
+            return redirect('login');
+        }
+    }
+
+    public function add_reply(Request $request)
+    {
+        if(Auth::user())
+        {
+            $reply = new Reply;
+
+            $reply->name=Auth::user()->name;
+
+            $reply->user_id = Auth::user()->id;
+
+            $reply->comment_id = $request->commentId;
+            
+            $reply->reply = $request->reply;
+
+            $reply->save();
+
+            return redirect()->back();
+        }
+
+        else{
+            return redirect('login');
+        }
+    }
+
+
+    public function product_search()
+    {
+        //searching product by the product name and by the product price
+    }
     
     
 }

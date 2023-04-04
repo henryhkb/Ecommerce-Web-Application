@@ -72,7 +72,6 @@ Route::post('/add_cart/{id}', [HomeController::class, 'add_cart']);
 
 Route::get('/showcart', [HomeController::class, 'showcart']);
 
- 
 Route::get('/remove_cart/{id}', [HomeController::class, 'remove_cart']);
 
 Route::get('/cash_order', [HomeController::class, 'cash_order']);
@@ -96,4 +95,9 @@ Route::post('send_user_email/{id}', [AdminController::class, 'send_user_email'])
 
 Route::get('search', [AdminController::class, 'search']);
 
+Route::post('add_comment', [HomeController::class, 'add_comment']);
+
+Route::post('add_reply', [HomeController::class, 'add_reply']);
+
+Route::get('product_search', [HomeController::class, 'product_search']);
 
