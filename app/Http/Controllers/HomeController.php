@@ -99,20 +99,53 @@ class HomeController extends Controller
 
 
 
-// function to add to cart and store the records in the database 
-//The $id here is the product id
     public function add_cart(Request $request, $id)
     {
         //first checking if the user is logged in before adding to cart
         //else redirecting the user to the login page.
         if(Auth::id())
-        { 
+        {
+            //return redirect()->back();
+            
             //storing the user data here.
             $user = Auth::user();
 
             $product = product::find($id);
-            // checking to see if the product_id is equal to the user_id
-            $product_exist_id = cart::where('Product_id', '=', 'user_id');
+
+            $userid = $user->id;
+
+            $product_exist_id = cart::where('Product_id', '=', $id)->where('user_id', '=', $userid)->get('id')->first();
+
+            if($product_exist_id)
+            {
+                $cart = Cart::find($product_exist_id)->first();
+                
+                $quantity = $cart->quantity;
+                
+                $cart->quantity = $quantity + $request->quantity;
+
+                if($product->discount !=null){
+
+                    $cart->price = $product->discount * $cart->quantity;     
+                if($product->discount !=null){
+
+                $cart->price = $product->discount * $request->quantity;     
+            
+            }else{
+
+                $cart->price = $product->price * $request->quantity;
+            }
+                }else{
+    
+                    $cart->price = $product->price * $cart->quantity;
+                }
+
+                $cart->save();
+                
+                return redirect()->back();
+            }
+
+            else{
 
             $cart = new Cart;
 
@@ -143,19 +176,58 @@ class HomeController extends Controller
             //requesting input from the user
             $cart->quantity = $request->quantity;
 
+
+
             $cart->save();
 
             return redirect()->back();
+
+            }
+
+            $cart = new Cart;
+
+            //displaying product and cart input to the web page
+            $cart->name = $user->name;
+            $cart->email = $user->email;
+            $cart->phone = $user->phone;
+            $cart->address = $user->address;
+            
+            
+            $cart->user_id = $user->id;
+            $cart->product_title = $product->title;
+
+            //checking if the product has a discount price
+            if($product->discount !=null){
+
+                $cart->price = $product->discount * $request->quantity;     
+            
+            }else{
+
+                $cart->price = $product->price * $request->quantity;
+            }
+
+            //$cart->price = $product->price;
+            $cart->image = $product->image;
+            $cart->Product_id = $product->id;
+
+            //requesting input from the user
+            $cart->quantity = $request->quantity;
+
+
+
+            $cart->save();
+
+            return redirect()->back();
+
+            
+
+
         }
 
         else{
             return redirect('login');
         }
     }
-// End of function to store records to the database 
-
-
-
 
     public function showcart()
     {
