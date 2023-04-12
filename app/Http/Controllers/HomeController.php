@@ -99,18 +99,20 @@ class HomeController extends Controller
 
 
 
+// function to add to cart and store the records in the database 
+//The $id here is the product id
     public function add_cart(Request $request, $id)
     {
         //first checking if the user is logged in before adding to cart
         //else redirecting the user to the login page.
         if(Auth::id())
-        {
-            //return redirect()->back();
-            
+        { 
             //storing the user data here.
             $user = Auth::user();
 
             $product = product::find($id);
+            // checking to see if the product_id is equal to the user_id
+            $product_exist_id = cart::where('Product_id', '=', 'user_id');
 
             $cart = new Cart;
 
@@ -141,21 +143,19 @@ class HomeController extends Controller
             //requesting input from the user
             $cart->quantity = $request->quantity;
 
-
-
             $cart->save();
 
             return redirect()->back();
-
-            
-
-
         }
 
         else{
             return redirect('login');
         }
     }
+// End of function to store records to the database 
+
+
+
 
     public function showcart()
     {

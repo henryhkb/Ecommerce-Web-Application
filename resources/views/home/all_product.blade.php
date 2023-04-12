@@ -30,22 +30,9 @@
         {{-- including the header section --}}
         @include('home.header')
         {{-- end of the include header section --}}
-
-         <!-- include slider section -->
-         @include('home.slider')
-         <!-- end include slider section -->
-      </div>
-
-      <!-- why section -->
-        @include('home.why')
-      <!-- end why section -->
-      
-      <!-- arrival section -->
-        @include('home.new_arrival')
-      <!-- end arrival section -->
-      
+  
       <!-- product section -->
-        @include('home.product')
+        @include('home.product_view')
       <!-- end product section -->
 
       {{-- Comment and reply system starts here--}}
@@ -94,7 +81,7 @@
 
             {{-- Reply Text Box --}}
 
-            {{-- Show this textbox whenever someone clicks on the reply button on the comments section above. --}}
+            {{-- Show this textbox whenever someone clicks on the replay button on the comments section above. --}}
             <div style="display:none;" class="replyDiv">
               <form action="{{ url('add_reply') }}" method="post">
                 @csrf
@@ -113,15 +100,6 @@
       {{-- Comment and reply system ends here --}}
 
     
-      <!-- subscribe section -->
-        @include('home.subscribe')
-      <!-- end subscribe section -->
-
-      <!-- client section -->
-        @include('home.client')
-      <!-- end client section -->
-      <!-- footer start -->
-        @include('home.footer')
       <!-- footer end -->
       <div class="cpy_">
          <p class="mx-auto">© 2021 All Rights Reserved By <a href="https://html.design/">Free Html Templates</a><br>

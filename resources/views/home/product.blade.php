@@ -37,6 +37,7 @@
                               <div class="col-md-4">
                                  <input type="submit" value="Add to Cart">
                               </div>
+                              
                               </div>
                            </form>
                         </div>
