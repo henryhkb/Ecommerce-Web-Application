@@ -101,3 +101,5 @@ Route::post('add_reply', [HomeController::class, 'add_reply']);
 
 Route::get('product_search', [HomeController::class, 'product_search']);
 
+
+

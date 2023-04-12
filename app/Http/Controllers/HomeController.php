@@ -142,7 +142,7 @@ class HomeController extends Controller
 
                 $cart->save();
                 
-                return redirect()->back();
+                return redirect()->back()->with('message', 'Product added successfully');
             }
 
             else{
@@ -180,8 +180,7 @@ class HomeController extends Controller
 
             $cart->save();
 
-            return redirect()->back();
-
+            return redirect()->back()->with('message', 'Product added successfully');
             }
 
             $cart = new Cart;
@@ -217,7 +216,7 @@ class HomeController extends Controller
 
             $cart->save();
 
-            return redirect()->back();
+            return redirect()->back()->with('message', 'Product added successfully');
 
             
 
