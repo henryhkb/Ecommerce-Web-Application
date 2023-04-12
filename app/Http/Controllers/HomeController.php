@@ -18,6 +18,7 @@ use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -141,8 +142,10 @@ class HomeController extends Controller
                 }
 
                 $cart->save();
+
+                Alert::success('Product Added Successfully', 'We have added the Product to the Cart');
                 
-                return redirect()->back()->with('message', 'Product added successfully');
+                return redirect()->back();
             }
 
             else{
@@ -227,6 +230,10 @@ class HomeController extends Controller
             return redirect('login');
         }
     }
+
+
+
+
 
     public function showcart()
     {
@@ -444,9 +451,10 @@ class HomeController extends Controller
     }
 
 
-    public function product_search()
+    public function product()
     {
-        //searching product by the product name and by the product price
+        $product = Product::paginate(6);
+        return view('home.product', compact('product')); 
     }
     
     

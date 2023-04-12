@@ -28,6 +28,8 @@
       crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    </head>
    <body>
+    @include('sweetalert::alert');
+    
       <div class="hero_area">
         {{-- including the header section --}}
         @include('home.header')
