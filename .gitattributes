@@ -7,9 +7,7 @@ CHANGELOG.md export-ignore
 
 
 *.php linguist-detectable=true  
-*.Laravel linguist-detectable=true  
-*.java linguist-detectable=false  
-*.Blade linguist-detectable=false  
+*.java linguist-detectable=false   
 *.js linguist-detectable=true  
 *.html linguist-detectable=false  
 *.css linguist-detectable=false  
